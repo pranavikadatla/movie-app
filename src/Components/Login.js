@@ -1,19 +1,69 @@
 import React, { useRef, useState } from 'react'
 import Header from './Header';
-import { checkValidData } from './utilis/Validate';
-
+import { checkValidData } from '../utilis/Validate';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utilis/firebase';
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utilis/userSlice';
 const Login = () => {
   const [signInForm, setSignInForm] = useState(true);
-  const [errorMessage,setErrorMessage]=useState("");
-  const name=useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const dispatch=useDispatch();
+  const name = useRef(null);
   const email = useRef(null);
-  const password=useRef(null);
+  const password = useRef(null);
   const handleButtonClick = () => {
-     console.log(email.current.value)
-     console.log(password.current.value)
-     const message=checkValidData(email.current.value,password.current.value)
-     console.log(message);
-     setErrorMessage(message);
+    const message = checkValidData(email.current.value, password.current.value)
+    setErrorMessage(message);
+    if (message) return;
+    if (!signInForm) {
+      createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          // Signed up 
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: name.current.value, 
+            photoURL: "https://avatars.githubusercontent.com/u/12824231?v=4",
+            //https://example.com/jane-q-user/profile.jpg
+          })
+          .then(() => {
+            // Profile updated!
+            const {uid,email,displayName,photoURL}= auth.currentUser;
+            dispatch(
+              addUser(
+                { uid:uid,
+                  email:email,
+                  displayName:displayName,
+                  photoURL:photoURL
+                }));
+          })
+          .catch((error) => {
+            // An error occurred
+            setErrorMessage(error.message)
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          setErrorMessage(errorCode + " " + errorMessage);
+          // ..
+        });
+    }
+    else {
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          setErrorMessage(errorCode + " " + errorMessage)
+        });
+    }
   }
   const toggleForm = () => {
     setSignInForm(!signInForm)
@@ -33,19 +83,19 @@ const Login = () => {
           {signInForm ? "Sign In" : "Sign Up"}
         </h1>
         {signInForm ? "" :
-         <input 
-           ref={name}
-           type='text' placeholder='Enter Name'
-          className='mx-auto  w-full px-2  py-3 m-3 rounded bg-gray-600 ' />}
+          <input
+            ref={name}
+            type='text' placeholder='Enter Name'
+            className='mx-auto  w-full px-2  py-3 m-3 rounded bg-gray-600 ' />}
         <input
           ref={email}
           type='text' placeholder='Enter Email'
           className='mx-auto  w-full px-2  py-3 m-3 rounded bg-gray-600 ' />
         <input
-           ref={password}
-          type='password' placeholder='Enter Password'
+          ref={password}
+          type='text' placeholder='Enter Password'
           className=' mx-auto px-2 w-full py-3 m-4 rounded bg-gray-600' />
-          <p className='text-lg font-bold text-red-600'> {errorMessage}</p>
+        <p className='text-lg font-bold text-red-600'> {errorMessage}</p>
         <button className='mx-auto   py-2 w-full m-3 mb-4 rounded  bg-red-700'
           onClick={handleButtonClick}>
           {signInForm ? "Sign In" : "Sign Up"}</button>
