@@ -6,6 +6,7 @@ import { auth } from '../utilis/firebase';
 import { updateProfile } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utilis/userSlice';
+import { USER_ICON } from '../utilis/constants';
 const Login = () => {
   const [signInForm, setSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,7 +25,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value, 
-            photoURL: "https://avatars.githubusercontent.com/u/12824231?v=4",
+            photoURL:  USER_ICON,
             //https://example.com/jane-q-user/profile.jpg
           })
           .then(() => {
@@ -45,8 +46,7 @@ const Login = () => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage);
+          const errorMessage = error.message
           setErrorMessage(errorCode + " " + errorMessage);
           // ..
         });
@@ -60,7 +60,6 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(errorMessage);
           setErrorMessage(errorCode + " " + errorMessage)
         });
     }
