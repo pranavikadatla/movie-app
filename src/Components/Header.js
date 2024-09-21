@@ -7,9 +7,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from "../utilis/userSlice";
 import { LOGO } from '../utilis/constants';
+import { toggleGptSeatchView } from '../utilis/gptSlice';
 const Header = () => {
   const navigate = useNavigate()
   const dispatch=useDispatch();
+  const showGptSearch=useSelector(store=>store.gpt.showGptSearch)
   const user = useSelector(store => store.user);
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -45,15 +47,22 @@ const Header = () => {
     });
     return ()=>unsubscribe();
   }, [])
+  function handleGPTSearch(){
+    dispatch(toggleGptSeatchView())
+  }
   return (
 
     <div className='absolute px-8 py-2 w-screen  bg-gradient-to-b from-black z-10 flex justify-between'>
       <img className='w-44'
         src={LOGO}
         alt="logo" />
-      {user && (<div className='flex '>
+      {user && (<div className='flex p-2 '>  
+        <button 
+          className='mx-4 my-4 px-4 py-2 bg-yellow-500 text-white text-md rounded-lg'
+          onClick={handleGPTSearch}>
+          {showGptSearch?"Home Page":"GPT Search" }</button>
         <img className=' h-10 rounded-md mt-4' src={user?.photoURL} />
-        <button className=' text-white bg-red-600 mx-3  my-4 px-2 py-0  rounded-lg text-md' onClick={handleSignOut}>Sign Out</button>
+        <button className=' text-white bg-purple-800 mx-3  my-4 px-3 py-2 rounded-lg text-lg' onClick={handleSignOut}>Sign Out</button>
       </div>
       )}
     </div>
