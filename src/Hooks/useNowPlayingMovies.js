@@ -13,6 +13,6 @@ const useNowPlayingMovies=()=>{
   };
   useEffect(()=>{
    !nowPlayingMovies&&  getNowPlayingMovies();
-  },[])
+  },[nowPlayingMovies, getNowPlayingMovies])
 }
 export default useNowPlayingMovies;
