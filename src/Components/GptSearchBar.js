@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { API_OPTIONS} from '../utilis/constants';
+// import { API_OPTIONS} from '../utilis/constants';
 import { addGptMovieNames} from '../utilis/gptSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -60,7 +60,7 @@ const GptSearchBar = () => {
           {searchText ? (movieNames && movieNames.map(movieName => (
             <div className='my-2 ml-14 md:ml-0 w-full  md:w-60 ' key={movieName.id.videoId}>
               <h1 classname="text-center">{movieName.snippet.title.slice(0,10)}</h1>
-              <img className='rounded-lg w-58 h-60 bg-gray-400 p-1  my-1' src={movieName.snippet.thumbnails.high.url} />
+              <img className='rounded-lg w-58 h-60 bg-gray-400 p-1  my-1' src={movieName.snippet.thumbnails.high.url} alt='movie' />
             </div>
           ))) :
           <h1 className='text-red-600 text-3xl  mx-auto'>Please Enter a Search Value</h1>
