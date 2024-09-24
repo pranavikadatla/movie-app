@@ -46,7 +46,7 @@ const Header = () => {
       }
     });
     return ()=>unsubscribe();
-  }, [auth, dispatch, navigate])
+  }, [dispatch, navigate])
   function handleGPTSearch(){
     dispatch(toggleGptSeatchView())
   }
@@ -61,7 +61,7 @@ const Header = () => {
           className='mx-4 my-4 px-4 py-2 bg-yellow-500 text-white text-md rounded-lg border-none'
           onClick={handleGPTSearch}>
           {showGptSearch?"Home Page":"GPT Search" }</button>
-        <img className=' h-10 rounded-md mt-4' src={user?.photoURL} />
+        <img className=' h-10 rounded-md mt-4' src={user?.photoURL}  alt='user' />
         <button className=' text-white bg-purple-800 mx-3  my-4 px-3 py-2 rounded-lg text-lg' onClick={handleSignOut}>Sign Out</button>
       </div>
       )}
