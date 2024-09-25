@@ -6,7 +6,7 @@ import VideoTitle from './VideoTitle';
 const MainContainer = () => {
     const movies=useSelector((store)=>store.movies?.nowPlayingMovies);
     if(movies===null) return;
- const mainMovie=movies[0]; 
+ const mainMovie=movies&&movies[0]; 
  const {title,overview,id}=mainMovie;
   return (
     <div className=' pt-[20%] bg-black md:pt-0'>
