@@ -101,7 +101,7 @@ const Login = () => {
           {signInForm ? "Sign In" : "Sign Up"}</button>
         <div className='flex'>
           <span className='text-gray-300'>
-            {signInForm ? "New to Netflix ?" : "Already Registered ?  "}
+            {signInForm ? "New User ?" : "Already Registered ?  "}
           </span>
           <p className='text-white font-bold cursor-pointer ' onClick={toggleForm}>
             {signInForm ? "Sign up Now" : "Sign in Now"}
