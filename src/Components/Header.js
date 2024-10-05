@@ -6,7 +6,7 @@ import { auth } from '../utilis/firebase';
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from "../utilis/userSlice";
-import { LOGO } from '../utilis/constants';
+// import { LOGO } from '../utilis/constants';
 import { toggleGptSeatchView } from '../utilis/gptSlice';
 const Header = () => {
   const navigate = useNavigate()
@@ -53,9 +53,10 @@ const Header = () => {
   return (
 
     <div className='absolute px-8 py-2 w-screen  bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between  '>
-      <img className='w-44 mx-auto md:mx-0'
+      {/* <img className='w-44 mx-auto md:mx-0'
         src=""
-        alt="logo" />
+        alt="logo" /> */}
+        <div></div>
       {user && (<div className='flex p-2 mx-auto  md:mx-0 -mt-5 md:mt-0'>  
         <button 
           className='mx-4 my-4 px-4 py-2 bg-yellow-500 text-white text-md rounded-lg border-none'
